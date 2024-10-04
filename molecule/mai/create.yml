@@ -1,0 +1,108 @@
+---
+- name: Create
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  no_log: false
+  vars:
+    molecule_scenario: mai # Multiple AWS Instances
+
+    caller_name: "{{ ansible_facts.env.MOLECULE_EPHEMERAL_DIRECTORY.split('/')[-2] }}"
+
+    molecule_ssh_key_pair_name: molecule-{{ molecule_scenario }}-{{ caller_name }}-ssh-key
+    molecule_security_group_name: molecule-{{ molecule_scenario }}-{{ caller_name }}-security-group
+
+    ssh_port: 22
+
+    molecule_security_group_rules:
+      - proto: tcp
+        from_port: "{{ ssh_port }}"
+        to_port: "{{ ssh_port }}"
+        cidr_ip: 0.0.0.0/0
+
+  tasks:
+    - name: Map subnet(s) to VPC(s)
+      amazon.aws.ec2_vpc_subnet_info:
+        subnet_ids: "{{ item.subnet_id }}"
+      loop: "{{ molecule_yml.platforms }}"
+      register: ec2_vpc_subnet_info
+
+    - name: Create the molecule security group
+      amazon.aws.ec2_security_group:
+        name: "{{ molecule_security_group_name }}"
+        description: Temporary {{ molecule_security_group_name }}
+        rules: "{{ molecule_security_group_rules }}"
+        vpc_id: "{{ item.subnets[0].vpc_id }}"
+      loop: "{{ ec2_vpc_subnet_info.results }}"
+
+    - name: Test for the presence of the local molecule ssh key pair
+      ansible.builtin.stat:
+        path: "{{ ansible_facts.env.MOLECULE_EPHEMERAL_DIRECTORY }}/{{ molecule_ssh_key_pair_name }}"
+      register: local_molecule_ssh_key_pair
+
+    - name: Create and download the molecule ssh key pair
+      when: not local_molecule_ssh_key_pair.stat.exists
+      block:
+        - name: Create the molecule ssh key pair
+          amazon.aws.ec2_key:
+            name: "{{ molecule_ssh_key_pair_name }}"
+            key_type: ed25519
+          register: molecule_ssh_key_pair
+
+        - name: Save the private key associated to the molecule ssh key pair locally
+          ansible.builtin.copy:
+            content: >
+              {{ molecule_ssh_key_pair.key.private_key }}
+            dest: "{{ ansible_facts.env.MOLECULE_EPHEMERAL_DIRECTORY }}/{{ molecule_ssh_key_pair_name }}"
+            mode: "600"
+          delegate_to: localhost
+
+    - name: Create the molecule EC2 instance(s)
+      amazon.aws.ec2_instance:
+        name: molecule-{{ molecule_scenario }}-{{ caller_name }}-{{ item.name }}
+        instance_type: "{{ item.instance_type }}"
+        image_id: "{{ item.image }}"
+        key_name: "{{ molecule_ssh_key_pair_name }}"
+        subnet_id: "{{ item.subnet_id }}"
+        security_group: "{{ molecule_security_group_name }}"
+        wait: true
+        wait_timeout: 300
+      register: server
+      loop: "{{ molecule_yml.platforms }}"
+
+    - name: Create instance config
+      when: server.changed | default(false) | bool # noqa no-handler
+      block:
+        - name: Populate instance config dict # noqa jinja
+          ansible.builtin.set_fact:
+            instance_conf_dict:
+              instance: "{{ item.instances[0].tags.Name | replace('molecule-' + molecule_scenario + '-' + caller_name + '-', '') }}"
+              address: "{{ item.instances[0].public_ip_address }}"
+              user: "{{ item.item.ssh_user }}"
+              port: "{{ ssh_port }}"
+              identity_file: "{{ ansible_facts.env.MOLECULE_EPHEMERAL_DIRECTORY }}/{{ molecule_ssh_key_pair_name }}"
+              instance_ids: "{{ item.instance_ids }}"
+          with_items: "{{ server.results }}"
+          register: instance_config_dict
+
+        - name: Convert instance config dict to a list
+          ansible.builtin.set_fact:
+            instance_conf: "{{ instance_config_dict.results | map(attribute='ansible_facts.instance_conf_dict') | list }}"
+
+        - name: Dump instance config
+          ansible.builtin.copy:
+            content: |
+              # Molecule managed
+
+              {{ instance_conf | to_json | from_json | to_yaml }}
+            dest: "{{ molecule_instance_config }}"
+            mode: "0600"
+
+        - name: Wait for SSH connectivity
+          ansible.builtin.wait_for:
+            port: "{{ ssh_port }}"
+            host: "{{ item.address }}"
+            search_regex: OpenSSH
+            delay: 30
+            timeout: 300
+          with_items: "{{ lookup('file', molecule_instance_config) | from_yaml }}"

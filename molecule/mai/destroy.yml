@@ -1,0 +1,57 @@
+---
+- name: Destroy
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  no_log: false
+  vars:
+    molecule_scenario: mai # Multiple AWS Instances
+
+    caller_name: "{{ ansible_facts.env.MOLECULE_EPHEMERAL_DIRECTORY.split('/')[-2] }}"
+
+    molecule_ssh_key_pair_name: molecule-{{ molecule_scenario }}-{{ caller_name }}-ssh-key
+    molecule_security_group_name: molecule-{{ molecule_scenario }}-{{ caller_name }}-security-group
+
+  tasks:
+    - name: Destroy the molecule EC2 instance(s)
+      amazon.aws.ec2_instance:
+        state: absent
+        instance_ids: "{{ item.instance_ids }}"
+      with_items: "{{ lookup('file', molecule_instance_config) | from_yaml }}"
+
+    - name: Gather information about the molecule security group(s)
+      amazon.aws.ec2_security_group_info:
+        filters:
+          group-name: "{{ molecule_security_group_name }}"
+      register: security_groups
+
+    - name: Destroy the molecule security group(s)
+      amazon.aws.ec2_security_group:
+        group_id: "{{ item.group_id }}"
+        state: absent
+      loop: "{{ security_groups.security_groups }}"
+      when: security_groups.security_groups | length > 0
+
+    - name: Destroy the molecule ssh key pair
+      amazon.aws.ec2_key:
+        name: "{{ molecule_ssh_key_pair_name }}"
+        state: absent
+
+    - name: Destroy the local private key associated to the molecule ssh key pair
+      ansible.builtin.file:
+        path: "{{ ansible_facts.env.MOLECULE_EPHEMERAL_DIRECTORY }}/{{ molecule_ssh_key_pair_name }}"
+        state: absent
+
+    - name: Populate instance config
+      ansible.builtin.set_fact:
+        instance_conf: {}
+
+    - name: Dump instance config
+      ansible.builtin.copy:
+        content: |
+          # Molecule managed
+
+          {{ instance_conf | to_json | from_json | to_yaml }}
+        dest: "{{ molecule_instance_config }}"
+        mode: "0600"
+      when: server.changed | default(false) | bool # noqa no-handler
