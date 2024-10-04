@@ -1,10 +1,12 @@
 ---
+__ansible_role_conf_dir: /etc/{{ ansible_role_name }}
+
 __sshd_config_file: /etc/ssh/sshd_config
 
 __sshd_extra_config_dir: /etc/ssh/sshd_config.d
 
 __sftp_server_path: /usr/lib/openssh/sftp-server
 
-__regenerate_ssh_host_keys_placeholder_file: /etc/ssh/.regenerate-ssh-host-keys.readme
+__regenerate_ssh_host_keys_placeholder_file: "{{ __ansible_role_conf_dir }}/regenerate-ssh-host-keys.readme"
 
-__remove_short_diffie_hellman_keys_placeholder_file: /etc/ssh/.remove-short-diffie-hellman-keys.readme
+__remove_short_diffie_hellman_keys_placeholder_file: "{{ __ansible_role_conf_dir }}/remove-short-diffie-hellman-keys.readme"
