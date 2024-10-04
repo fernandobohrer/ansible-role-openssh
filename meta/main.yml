@@ -1,0 +1,18 @@
+---
+dependencies: []
+galaxy_info:
+  role_name: openssh
+  author: fernandobohrer
+  description: openssh
+  license: MIT
+  min_ansible_version: "2.1"
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+  galaxy_tags:
+    - openssh

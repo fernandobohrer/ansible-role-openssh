@@ -1,0 +1,58 @@
+---
+- name: Set distribution-specific variables
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - vars/{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.yml
+        - vars/{{ ansible_distribution | lower }}-{{ ansible_distribution_version | replace('.', '') }}.yml
+      skip: false
+
+- name: Ensure openssh-server package is installed
+  ansible.builtin.apt:
+    name: openssh-server
+    state: present
+    update_cache: true
+    cache_valid_time: "{{ apt_cache_valid_time }}"
+
+- name: Ensure ssh service is started and enabled
+  ansible.builtin.systemd:
+    name: ssh.service
+    state: started
+    enabled: true
+    daemon_reload: true
+
+- name: Regenerate rsa and ed25519 ssh host keys
+  ansible.builtin.import_tasks: regenerate-rsa-and-ed25519-ssh-host-keys.yml
+  when: regenerate_ssh_host_keys
+
+- name: Remove short Diffie-Hellman keys
+  ansible.builtin.import_tasks: remove-short-diffie-hellman-keys.yml
+  when: remove_short_diffie_hellman_keys
+
+- name: Ensure ssh configuration directory exists
+  ansible.builtin.file:
+    path: "{{ __sshd_extra_config_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "700"
+
+- name: Ensure ssh service is configured
+  ansible.builtin.template:
+    src: sshd_config.j2
+    dest: "{{ __sshd_config_file }}"
+    backup: true
+    owner: root
+    group: root
+    mode: "644"
+  notify: Restart ssh.service
+
+- name: Ensure ssh service is hardened
+  ansible.builtin.copy:
+    src: "{{ __ssh_extra_configuration_file }}"
+    dest: "{{ __sshd_extra_config_dir }}/01-{{ ansible_role_name | replace('.', '-') }}.conf"
+    backup: true
+    owner: root
+    group: root
+    mode: "644"
+  notify: Restart ssh.service

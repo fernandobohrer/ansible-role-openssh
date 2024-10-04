@@ -1,0 +1,32 @@
+---
+- name: Remove placeholder file to force removal of short Diffie-Hellman keys
+  ansible.builtin.file:
+    path: "{{ __remove_short_diffie_hellman_keys_placeholder_file }}"
+    state: absent
+  when: force_remove_short_diffie_hellman_keys
+
+- name: Check if the short Diffie-Hellman keys were already removed
+  ansible.builtin.stat:
+    path: "{{ __remove_short_diffie_hellman_keys_placeholder_file }}"
+  register: short_diffie_hellman_keys_removed
+
+- name: Remove short Diffie-Hellman keys
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: |
+      awk '$5 >= {{ diffie_hellman_keys_min_size }}' /etc/ssh/moduli > /etc/ssh/moduli.safe
+      mv -f /etc/ssh/moduli.safe /etc/ssh/moduli
+  notify: Restart ssh.service
+  when: not short_diffie_hellman_keys_removed.stat.exists
+  changed_when: not short_diffie_hellman_keys_removed.stat.exists
+
+- name: Mark short Diffie-Hellman keys as removed
+  vars:
+    task_details: Mark short Diffie-Hellman keys as removed
+  ansible.builtin.template:
+    src: ssh_configuration_placeholder_file.j2
+    dest: "{{ __remove_short_diffie_hellman_keys_placeholder_file }}"
+    owner: root
+    group: root
+    mode: "644"
+  when: not short_diffie_hellman_keys_removed.stat.exists
