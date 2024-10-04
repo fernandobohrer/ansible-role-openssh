@@ -21,6 +21,14 @@
     enabled: true
     daemon_reload: true
 
+- name: Ensure ansible role configuration directory exists
+  ansible.builtin.file:
+    path: "{{ __ansible_role_conf_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "755"
+
 - name: Regenerate rsa and ed25519 ssh host keys
   ansible.builtin.import_tasks: regenerate-rsa-and-ed25519-ssh-host-keys.yml
   when: regenerate_ssh_host_keys
