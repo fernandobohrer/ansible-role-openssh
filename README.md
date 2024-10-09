@@ -32,7 +32,7 @@ An example of how integrate this role to an Ansible playbook can be found here:
 
 ## ⚙️ Compatibility
 
-This role was tested on and is confirmed to work with the following operating systems:
+This role was tested on and is confirmed to work with the following Linux distributions:
 
 - `Debian 12`
 - `Ubuntu 22.04`
@@ -44,7 +44,7 @@ Details can be found in the [Molecule][05] scenarios available in the `molecule`
 
 **`ssh` is a critical service! Wrong configuration can potentially make the service fail to start, locking you out of your machines!**
 
-This Ansible role was tested on the above mentioned operating systems considering the configuration that is deployed by default when the `openssh` package gets installed. Your environment might have a different configuration or requirements which might conflict with the configuration that this role applies.
+This Ansible role was tested on the above mentioned Linux distributions considering their default configuration. Your environment might have a different configuration or requirements which might conflict with the options that this role uses.
 
 With the above in mind, it is **imperative** that you familiarize yourself with what this role does and test it on non-production machines **before** applying it to machines in a production environment.
 
@@ -64,7 +64,7 @@ The recommended approach described above boils down to:
 
 1. How can I check that the configuration changes applied via this Ansible role actually enhanced my server's `ssh` security?
 
-    1. In the `docs` folder you can find a set of files for different operating systems demonstrating the differences that exist before and after applying the changes that are part of this role. To test yourself, follow the steps below:
+    1. In the `docs` folder you can find a set of files for different Linux distributions demonstrating the differences that exist before and after applying the changes that are part of this role. To test yourself, follow the steps below:
 
         1. If your host exposes the `ssh` service to the Internet:
             1. Visit [sshaudit.com][02], inform your host public IP address under `Target SSH Server` and hit `Scan`.
