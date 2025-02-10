@@ -4,5 +4,7 @@
   become: true
   gather_facts: true
 
-  roles:
-    - ansible-role-openssh
+  tasks:
+    - name: Apply role
+      ansible.builtin.include_role:
+        name: ansible-role-openssh
