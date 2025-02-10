@@ -10,7 +10,7 @@ This project combines the hardening guides available [here][04] with some other 
 
 ## 📑 Role Variables
 
-Check `defaults/main.yml`.
+Check [here][05].
 
 ## 🧰 Dependencies
 
@@ -38,7 +38,7 @@ This role was tested on and is confirmed to work with the following Linux distri
 - `Ubuntu 22.04`
 - `Ubuntu 24.04`
 
-Details can be found in the [Molecule][05] scenarios available in the `molecule` folder.
+Details can be found in the [Molecule][06] scenarios available in the `molecule` folder.
 
 ## ⚠️ Warning
 
@@ -75,7 +75,7 @@ The recommended approach described above boils down to:
 
         1. If your host does not expose the `ssh` service to the Internet:
             1. Connect to the target host via `ssh`.
-            1. Install `pipenv`: `sudo apt-get -y install pipenv` or `pip install pipenv --user`. Details can be found [here][06].
+            1. Install `pipenv`: `sudo apt-get -y install pipenv` or `pip install pipenv --user`. Details can be found [here][07].
             1. As a regular user, create a `.venv` directory anywhere: `mkdir -p randomdir/.venv ; cd randomdir`.
             1. Using `pipenv`, switch to the virtual environment: `pipenv shell`.
             1. Install `ssh-audit`: `pip install ssh-audit`.
@@ -93,23 +93,24 @@ The recommended approach described above boils down to:
     Some of the sources include:
 
     - *SSH Hardening Guides* by `https://sshaudit.com` available [here][04].
-    - *How to configure and use OpenSSH server and client securely* by `https://infosec.mozilla.org` available [here][07].
-    - *Top 20 OpenSSH Server Best Security Practices* by `https://www.cyberciti.biz` available [here][08].
-    - *Why should I re-generate a server's SSH host keys?* by `https://security.stackexchange.com` available [here][09].
-    - *10 Actionable SSH Hardening Tips to Secure Your Linux Server* by `https://linuxhandbook.com` available [here][10].
+    - *How to configure and use OpenSSH server and client securely* by `https://infosec.mozilla.org` available [here][08].
+    - *Top 20 OpenSSH Server Best Security Practices* by `https://www.cyberciti.biz` available [here][09].
+    - *Why should I re-generate a server's SSH host keys?* by `https://security.stackexchange.com` available [here][10].
+    - *10 Actionable SSH Hardening Tips to Secure Your Linux Server* by `https://linuxhandbook.com` available [here][11].
 
 ## 📝 License
 
-This project is licensed under the terms of the [MIT license][11].
+This project is licensed under the terms of the [MIT license][12].
 
 [01]: https://www.openssh.com/
 [02]: https://sshaudit.com/
 [03]: https://pypi.org/project/ssh-audit/
 [04]: https://sshaudit.com/hardening_guides.html
-[05]: https://github.com/fernandobohrer/ansible-molecule-scenarios
-[06]: https://pipenv.pypa.io/en/latest/installation.html
-[07]: https://infosec.mozilla.org/guidelines/openssh
-[08]: https://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html
-[09]: https://security.stackexchange.com/questions/265378/why-should-i-re-generate-a-servers-ssh-host-keys
-[10]: https://linuxhandbook.com/ssh-hardening-tips/
-[11]: /LICENSE
+[05]: defaults/main.yml
+[06]: https://github.com/fernandobohrer/ansible-molecule-scenarios
+[07]: https://pipenv.pypa.io/en/latest/installation.html
+[08]: https://infosec.mozilla.org/guidelines/openssh
+[09]: https://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html
+[10]: https://security.stackexchange.com/questions/265378/why-should-i-re-generate-a-servers-ssh-host-keys
+[11]: https://linuxhandbook.com/ssh-hardening-tips/
+[12]: /LICENSE
