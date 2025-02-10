@@ -1,36 +1,36 @@
 ---
 - name: Remove placeholder file to force ssh host keys regeneration
   ansible.builtin.file:
-    path: "{{ __regenerate_ssh_host_keys_placeholder_file }}"
+    path: "{{ __openssh__regenerate_ssh_host_keys_placeholder_file }}"
     state: absent
-  when: force_regenerate_ssh_host_keys
+  when: openssh__force_regenerate_host_keys
 
 - name: Check if the ssh host keys were already regenerated
   ansible.builtin.stat:
-    path: "{{ __regenerate_ssh_host_keys_placeholder_file }}"
-  register: ssh_host_keys_regenerated
+    path: "{{ __openssh__regenerate_ssh_host_keys_placeholder_file }}"
+  register: openssh__host_keys_regenerated
 
 - name: Find and remove preconfigured ssh host keys
-  when: not ssh_host_keys_regenerated.stat.exists
+  when: not openssh__host_keys_regenerated.stat.exists
   notify: Restart ssh.service
   block:
     - name: Find preconfigured ssh host keys
       ansible.builtin.find:
         paths: /etc/ssh
         patterns: ssh_host_*
-      register: preconfigured_ssh_host_keys
+      register: openssh__preconfigured_host_keys
 
     - name: Remove preconfigured ssh host keys
       ansible.builtin.file:
         path: "{{ item['path'] }}"
         state: absent
-      with_items: "{{ preconfigured_ssh_host_keys['files'] }}"
+      with_items: "{{ openssh__preconfigured_host_keys['files'] }}"
 
 - name: Regenerate the rsa ssh host key
   community.crypto.openssh_keypair:
     path: /etc/ssh/ssh_host_rsa_key
     type: rsa
-    size: "{{ rsa_ssh_host_key_size }}"
+    size: "{{ openssh__rsa_host_key_size }}"
     owner: root
     group: root
     mode: "600"
@@ -52,8 +52,8 @@
     task_details: Mark the ssh host keys as regenerated
   ansible.builtin.template:
     src: ssh_configuration_placeholder_file.j2
-    dest: "{{ __regenerate_ssh_host_keys_placeholder_file }}"
+    dest: "{{ __openssh__regenerate_ssh_host_keys_placeholder_file }}"
     owner: root
     group: root
     mode: "644"
-  when: not ssh_host_keys_regenerated.stat.exists
+  when: not openssh__host_keys_regenerated.stat.exists

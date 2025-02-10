@@ -7,9 +7,9 @@
         - vars/{{ ansible_distribution | lower }}-{{ ansible_distribution_version | replace('.', '') }}.yml
       skip: false
 
-- name: Ensure openssh-server package is installed
+- name: Ensure role dependencies are installed
   ansible.builtin.apt:
-    name: openssh-server
+    name: "{{ __openssh__role_dependencies }}"
     state: present
     update_cache: true
     cache_valid_time: "{{ apt_cache_valid_time }}"
@@ -23,7 +23,7 @@
 
 - name: Ensure ansible role configuration directory exists
   ansible.builtin.file:
-    path: "{{ __ansible_role_conf_dir }}"
+    path: "{{ __openssh__ansible_role_conf_dir }}"
     state: directory
     owner: root
     group: root
@@ -31,15 +31,15 @@
 
 - name: Regenerate rsa and ed25519 ssh host keys
   ansible.builtin.import_tasks: regenerate-rsa-and-ed25519-ssh-host-keys.yml
-  when: regenerate_ssh_host_keys
+  when: openssh__regenerate_host_keys
 
 - name: Remove short Diffie-Hellman keys
   ansible.builtin.import_tasks: remove-short-diffie-hellman-keys.yml
-  when: remove_short_diffie_hellman_keys
+  when: openssh__remove_short_diffie_hellman_keys
 
 - name: Ensure ssh configuration directory exists
   ansible.builtin.file:
-    path: "{{ __sshd_extra_config_dir }}"
+    path: "{{ __openssh__extra_conf_dir }}"
     state: directory
     owner: root
     group: root
@@ -48,7 +48,7 @@
 - name: Ensure ssh service is configured
   ansible.builtin.template:
     src: sshd_config.j2
-    dest: "{{ __sshd_config_file }}"
+    dest: "{{ __openssh__conf_file }}"
     backup: true
     owner: root
     group: root
@@ -57,8 +57,8 @@
 
 - name: Ensure ssh service is hardened
   ansible.builtin.copy:
-    src: "{{ __ssh_extra_configuration_file }}"
-    dest: "{{ __sshd_extra_config_dir }}/01-{{ ansible_role_name | replace('.', '-') }}.conf"
+    src: "{{ __openssh__extra_configuration_file }}"
+    dest: "{{ __openssh__extra_conf_dir }}/01-{{ ansible_role_name | replace('.', '-') }}.conf"
     backup: true
     owner: root
     group: root

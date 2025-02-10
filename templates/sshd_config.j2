@@ -1,54 +1,54 @@
 Protocol 2
 
-Port {{ ssh_port }}
+Port {{ openssh__port }}
 
 HostKey /etc/ssh/ssh_host_rsa_key
 HostKey /etc/ssh/ssh_host_ed25519_key
 
-LogLevel {{ ssh_log_level }}
-SyslogFacility {{ ssh_syslog_facility }}
+LogLevel {{ openssh__log_level }}
+SyslogFacility {{ openssh__syslog_facility }}
 
-MaxAuthTries {{ ssh_max_auth_tries }}
-LoginGraceTime {{ ssh_login_grace_time }}
+MaxAuthTries {{ openssh__max_auth_tries }}
+LoginGraceTime {{ openssh__login_grace_time }}
 
-PermitRootLogin {{ ssh_permit_root_login }}
+PermitRootLogin {{ openssh__permit_root_login }}
 
-{% if (ssh_allow_users is defined and ssh_allow_users | length > 0) %}
-AllowUsers {{ ssh_allow_users[0] }}
+{% if (openssh__allow_users is defined and openssh__allow_users | length > 0) %}
+AllowUsers {{ openssh__allow_users[0] }}
 {% endif %}
 
 AuthorizedKeysFile .ssh/authorized_keys
 
-AuthenticationMethods {{ ssh_authentication_methods }}
+AuthenticationMethods {{ openssh__authentication_methods }}
 
-PubkeyAuthentication {{ ssh_pubkey_authentication }}
+PubkeyAuthentication {{ openssh__pubkey_authentication }}
 
-PermitEmptyPasswords {{ ssh_permit_empty_passwords }}
+PermitEmptyPasswords {{ openssh__permit_empty_passwords }}
 
-PasswordAuthentication {{ ssh_password_authentication }}
-GSSAPIAuthentication {{ ssh_gssapi_authentication }}
-KerberosAuthentication {{ ssh_kerberos_authentication }}
-KbdInteractiveAuthentication {{ ssh_kbd_interactive_authentication }}
-ChallengeResponseAuthentication {{ ssh_challenge_response_authentication }}
+PasswordAuthentication {{ openssh__password_authentication }}
+GSSAPIAuthentication {{ openssh__gssapi_authentication }}
+KerberosAuthentication {{ openssh__kerberos_authentication }}
+KbdInteractiveAuthentication {{ openssh__kbd_interactive_authentication }}
+ChallengeResponseAuthentication {{ openssh__challenge_response_authentication }}
 
-UsePAM {{ ssh_use_pam }}
+UsePAM {{ openssh__use_pam }}
 
-PrintMotd {{ ssh_print_motd }}
+PrintMotd {{ openssh__print_motd }}
 {% if ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"  %}
-DebianBanner {{ ssh_debian_banner }}
+DebianBanner {{ openssh__debian_banner }}
 {% endif %}
-X11Forwarding {{ ssh_x11_forwarding }}
+X11Forwarding {{ openssh__x11_forwarding }}
 
-AcceptEnv {{ ssh_accept_env }}
+AcceptEnv {{ openssh__accept_env }}
 
-ClientAliveInterval {{ ssh_client_alive_interval }}
-ClientAliveCountMax {{ ssh_client_alive_count_max }}
+ClientAliveInterval {{ openssh__client_alive_interval }}
+ClientAliveCountMax {{ openssh__client_alive_count_max }}
 
-Subsystem sftp {{ __sftp_server_path }} -f AUTHPRIV -l INFO
+Subsystem sftp {{ __openssh__sftp_server_path }} -f AUTHPRIV -l INFO
 
 {% if (ansible_facts.distribution == "Debian" and ansible_facts.distribution_major_version == "12") or
       (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version == "24") %}
-RequiredRSASize {{ ssh_required_rsa_size }}
+RequiredRSASize {{ openssh__required_rsa_size }}
 {% endif %}
 
 # This include line needs to be at the end of the configuration file so that the settings load properly:

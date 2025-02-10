@@ -1,24 +1,26 @@
 ---
+# Update the apt cache if it is older than the apt_cache_valid_time value.
+# Option set in seconds.
 apt_cache_valid_time: 3600
 
-rsa_ssh_host_key_size: 4096
-regenerate_ssh_host_keys: true
-force_regenerate_ssh_host_keys: false
-# Set 'force_regenerate_ssh_host_keys' to 'true' if you already
+openssh__rsa_host_key_size: 4096
+openssh__regenerate_host_keys: true
+openssh__force_regenerate_host_keys: false
+# Set 'openssh__force_regenerate_host_keys' to 'true' if you already
 # regenerated the SSH host keys once and want to repeat the process.
 
-diffie_hellman_keys_min_size: 4096
+openssh__diffie_hellman_keys_min_size: 4096
 # All Diffie-Hellman moduli in use should be at least 3072-bit-long
 # https://infosec.mozilla.org/guidelines/openssh#modern-openssh-67
 # Although Mozilla recommends 3072 bits, I set the default for this role to be 4096 bits.
-remove_short_diffie_hellman_keys: true
-force_remove_short_diffie_hellman_keys: false
-# Set 'force_remove_short_diffie_hellman_keys' to 'true' if you already
+openssh__remove_short_diffie_hellman_keys: true
+openssh__force_remove_short_diffie_hellman_keys: false
+# Set 'openssh__force_remove_short_diffie_hellman_keys' to 'true' if you already
 # removed the short Diffie-Hellman keys once and want to repeat the process.
 
-# Optional 'ssh_allow_users' variable:
+# Optional 'openssh__allow_users' variable:
 # Only required if you want to limit ssh access to a specific set of users.
-# ssh_allow_users: [
+# openssh__allow_users: [
 #   user-a
 #   user-b
 #   user-c
@@ -27,41 +29,41 @@ force_remove_short_diffie_hellman_keys: false
 
 # /etc/ssh/sshd_config configuration file details:
 
-ssh_port: 22
+openssh__port: 22
 
-ssh_log_level: VERBOSE
-ssh_syslog_facility: AUTHPRIV
+openssh__log_level: VERBOSE
+openssh__syslog_facility: AUTHPRIV
 
-ssh_max_auth_tries: 4
-ssh_login_grace_time: 15
+openssh__max_auth_tries: 4
+openssh__login_grace_time: 15
 
-ssh_permit_root_login: "no"
+openssh__permit_root_login: "no"
 
-ssh_authentication_methods: publickey
+openssh__authentication_methods: publickey
 
-ssh_pubkey_authentication: "yes"
+openssh__pubkey_authentication: "yes"
 
-ssh_permit_empty_passwords: "no"
+openssh__permit_empty_passwords: "no"
 
-ssh_password_authentication: "no"
-ssh_gssapi_authentication: "no"
-ssh_kerberos_authentication: "no"
-ssh_kbd_interactive_authentication: "no"
-ssh_challenge_response_authentication: "no"
+openssh__password_authentication: "no"
+openssh__gssapi_authentication: "no"
+openssh__kerberos_authentication: "no"
+openssh__kbd_interactive_authentication: "no"
+openssh__challenge_response_authentication: "no"
 
-ssh_use_pam: "yes"
+openssh__use_pam: "yes"
 
-ssh_print_motd: "no"
-ssh_debian_banner: "no"
-ssh_x11_forwarding: "no"
+openssh__print_motd: "no"
+openssh__debian_banner: "no"
+openssh__x11_forwarding: "no"
 
-ssh_accept_env: LANG LC_*
+openssh__accept_env: LANG LC_*
 
-ssh_client_alive_interval: 60
-ssh_client_alive_count_max: 5
+openssh__client_alive_interval: 60
+openssh__client_alive_count_max: 5
 
-ssh_required_rsa_size: 3072 # Only applicable to Debian 12 and Ubuntu 24.04.
-# The default value for the 'ssh_required_rsa_size' variable is set to 3072 which might cause problems if you are using a default RSA key provided by AWS.
+openssh__required_rsa_size: 3072 # Only applicable to Debian 12 and Ubuntu 24.04.
+# The default value for the 'openssh__required_rsa_size' variable is set to 3072 which might cause problems if you are using a default RSA key provided by AWS.
 # By default, when a RSA key is created via the AWS console, the key size is set to 2048 bits.
 # If you are using an ED25519 key, everything should continue to operate normally.
 # Details can be found here: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateKeyPair.html
