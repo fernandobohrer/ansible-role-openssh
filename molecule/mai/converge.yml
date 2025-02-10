@@ -4,10 +4,5 @@
   become: true
   gather_facts: true
 
-  # pre_tasks:
-  #   - name: Print all available facts
-  #     ansible.builtin.debug:
-  #       var: ansible_facts
-
   roles:
-    - fernandobohrer.openssh
+    - ansible-role-openssh
