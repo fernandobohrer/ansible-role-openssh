@@ -1,6 +1,6 @@
 # Ubuntu 22.04
 
-These are the results provided by [sshaudit.com][01] **after** applying the `fernandobohrer.openssh` Ansible role:
+These are the results provided by [sshaudit.com][01] when auditing a temporary instance running `Ubuntu 22.04` **after** applying the `fernandobohrer.openssh` Ansible role:
 
 ![02]
 
