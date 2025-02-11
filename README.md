@@ -64,7 +64,7 @@ The recommended approach described above boils down to:
 
 1. How can I check that the configuration changes applied via this Ansible role actually enhanced my server's `ssh` security?
 
-    1. In the `docs` folder you can find a set of files for different Linux distributions demonstrating the differences that exist before and after applying the changes that are part of this role. To test yourself, follow the steps below:
+    1. In the [`docs` folder](docs) you can find a set of files for different Linux distributions demonstrating the differences that exist before and after applying the changes that are part of this role. To test yourself, follow the steps below:
 
         1. If your host exposes the `ssh` service to the Internet:
             1. Visit [sshaudit.com][02], inform your host public IP address under `Target SSH Server` and hit `Scan`.
