@@ -14,7 +14,7 @@ For details about any specific dependencies for the different scenarios, please 
 
 ## ⚡ Quick start
 
-The easiest way to integrate these Molecule scenarios to your Ansible role is to clone this repository to the `molecule` folder in your Ansile role path.
+The easiest way to integrate these Molecule scenarios to your Ansible role is to clone this repository to the `molecule` folder in your Ansible role path.
 
 After cloning this repository, you might want to remove the `.git` directory associated to this project since you are probably interested in this project's files themselves and probably not on the repository itself.
 
