@@ -7,4 +7,4 @@
   tasks:
     - name: Apply role
       ansible.builtin.include_role:
-        name: ansible-role-openssh
+        name: fernandobohrer.openssh

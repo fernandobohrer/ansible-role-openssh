@@ -8,6 +8,9 @@ dependency:
 
 provisioner:
   name: ansible
+  env:
+    ANSIBLE_PYTHON_INTERPRETER: auto_silent
+    ANSIBLE_LIBRARY: $ANSIBLE_LIBRARY:$VIRTUAL_ENV/lib/$PYTHON_VERSION/site-packages/molecule_plugins/vagrant/modules
 
 driver:
   name: vagrant
@@ -15,7 +18,7 @@ driver:
     name: virtualbox
 
 platforms:
-  - name: debian-12
-    box: debian/bookworm64
+  - name: debian-13
+    box: fernandobohrer/debian-13
     cpus: 2
     memory: 2048

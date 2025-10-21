@@ -28,10 +28,8 @@ git clone --depth 1 https://github.com/fernandobohrer/ansible-molecule-scenarios
 
 The following Molecule scenarios are available:
 
-- `mai` or *Multiple AWS Instances*
 - `mdc` or *Multiple Docker Containers*
 - `mvb` or *Multiple Vagrant Boxes*
-- `sai` or *Single AWS Instance*
 - `sdc` or *Single Docker Container*
 - `svb` or *Single Vagrant Box*
 

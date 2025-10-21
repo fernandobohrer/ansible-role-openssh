@@ -8,6 +8,9 @@ dependency:
 
 provisioner:
   name: ansible
+  env:
+    ANSIBLE_PYTHON_INTERPRETER: auto_silent
+    ANSIBLE_LIBRARY: $ANSIBLE_LIBRARY:$VIRTUAL_ENV/lib/$PYTHON_VERSION/site-packages/molecule_plugins/vagrant/modules
 
 driver:
   name: vagrant
@@ -15,17 +18,12 @@ driver:
     name: virtualbox
 
 platforms:
-  - name: debian-12
-    box: debian/bookworm64
-    cpus: 2
-    memory: 2048
-
-  - name: ubuntu-2204
-    box: alvistack/ubuntu-22.04
+  - name: debian-13
+    box: fernandobohrer/debian-13
     cpus: 2
     memory: 2048
 
   - name: ubuntu-2404
-    box: alvistack/ubuntu-24.04
+    box: bento/ubuntu-24.04 # https://developer.hashicorp.com/vagrant/docs/boxes#official-boxes
     cpus: 2
     memory: 2048
