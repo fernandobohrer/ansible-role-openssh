@@ -35,6 +35,7 @@ An example of how integrate this role to an Ansible playbook can be found here:
 This role was tested on and is confirmed to work with the following Linux distributions:
 
 - `Debian 12`
+- `Debian 13`
 - `Ubuntu 22.04`
 - `Ubuntu 24.04`
 
