@@ -31,7 +31,7 @@ Besides the dependencies mentioned above, make sure to have [Vagrant][05] and [V
     1. To connect to the virtual machine defined in the `molecule.yml` file, use the virtual machines's name:
 
         ```bash
-        molecule login -s svb -h debian-12
+        molecule login -s svb -h debian-13
         ```
 
     1. Finally, to destroy the virtual machine:

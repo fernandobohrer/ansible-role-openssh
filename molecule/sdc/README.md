@@ -31,7 +31,7 @@ Besides the dependencies mentioned above, make sure to have [Docker][05] install
     1. To connect to the container defined in the `molecule.yml` file, use the container's name:
 
         ```bash
-        molecule login -s sdc -h debian-12
+        molecule login -s sdc -h debian-13
         ```
 
     1. Finally, to destroy the container:
