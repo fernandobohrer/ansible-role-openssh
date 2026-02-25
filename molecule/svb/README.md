@@ -45,7 +45,7 @@ Besides the dependencies mentioned above, make sure to have [Vagrant][05] and [V
 [01]: https://ansible.readthedocs.io/projects/molecule/
 [02]: https://www.ansible.com/
 [03]: https://www.vagrantup.com/
-[04]: https://github.com/fernandobohrer/ansible-venv
+[04]: https://github.com/fernandobohrer/devops-venv
 [05]: https://developer.hashicorp.com/vagrant/install
 [06]: https://www.virtualbox.org/wiki/Downloads
 [07]: https://ansible.readthedocs.io/projects/molecule/usage/#test-sequence-commands

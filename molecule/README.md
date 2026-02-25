@@ -41,5 +41,5 @@ This project is licensed under the terms of the [MIT license][04].
 
 [01]: https://ansible.readthedocs.io/projects/molecule/
 [02]: https://www.ansible.com/
-[03]: https://github.com/fernandobohrer/ansible-venv
+[03]: https://github.com/fernandobohrer/devops-venv
 [04]: /LICENSE

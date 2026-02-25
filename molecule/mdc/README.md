@@ -45,6 +45,6 @@ Besides the dependencies mentioned above, make sure to have [Docker][05] install
 [01]: https://ansible.readthedocs.io/projects/molecule/
 [02]: https://www.ansible.com/
 [03]: https://www.docker.com/
-[04]: https://github.com/fernandobohrer/ansible-venv
+[04]: https://github.com/fernandobohrer/devops-venv
 [05]: https://docs.docker.com/engine/install/
 [06]: https://ansible.readthedocs.io/projects/molecule/usage/#test-sequence-commands
