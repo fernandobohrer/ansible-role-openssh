@@ -8,7 +8,7 @@ The use of [Molecule][01] scenarios allows for Ansible roles to be tested on mul
 
 ## 🧰 Dependencies
 
-These [Molecule][01] scenarios were tested and are confirmed to work properly when using the dependencies that are listed [here][03].
+These [Molecule][01] scenarios were tested and are confirmed to work properly when using the dependencies that are listed in the [devops-venv][03] repository.
 
 For details about any specific dependencies for the different scenarios, please check the relevant information in the `README.md` file within each scenario folder.
 

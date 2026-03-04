@@ -8,7 +8,7 @@ This scenario can be used to test [Ansible][02] roles on multiple [Docker][03] c
 
 ## 🧰 Dependencies
 
-This scenario was tested and is confirmed to work properly when using the dependencies that are listed [here][04].
+This scenario was tested and is confirmed to work properly when using the dependencies that are listed in the [devops-venv][04] repository.
 
 Besides the dependencies mentioned above, make sure to have [Docker][05] installed on your machine.
 
