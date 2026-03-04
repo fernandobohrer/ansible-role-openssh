@@ -1,6 +1,6 @@
 # Single Vagrant Box
 
-This is a [Molecule][01] scenario called `svb` for *Single Vagrant Box*.
+This is a [Molecule][01] scenario called `svb` for _Single Vagrant Box_.
 
 ## 🚀 Motivation
 
@@ -15,32 +15,31 @@ Besides the dependencies mentioned above, make sure to have [Vagrant][05] and [V
 ## ⚡ Quick start
 
 1. From within your Ansible role directory, execute the commands below:
+   1. To create the virtual machine defined in the `molecule.yml` file:
 
-    1. To create the virtual machine defined in the `molecule.yml` file:
+      ```bash
+      molecule create -s svb
+      ```
 
-        ```bash
-        molecule create -s svb
-        ```
+   1. To execute the tasks defined in the `converge.yml` file on the created virtual machine:
 
-    1. To execute the tasks defined in the `converge.yml` file on the created virtual machine:
+      ```bash
+      molecule converge -s svb
+      ```
 
-        ```bash
-        molecule converge -s svb
-        ```
+   1. To connect to the virtual machine defined in the `molecule.yml` file, use the virtual machines's name:
 
-    1. To connect to the virtual machine defined in the `molecule.yml` file, use the virtual machines's name:
+      ```bash
+      molecule login -s svb -h debian-13
+      ```
 
-        ```bash
-        molecule login -s svb -h debian-13
-        ```
+   1. Finally, to destroy the virtual machine:
 
-    1. Finally, to destroy the virtual machine:
+      ```bash
+      molecule destroy -s svb
+      ```
 
-        ```bash
-        molecule destroy -s svb
-        ```
-
-    For additional information about the commands above, check the *Test sequence commands* section available in the [Molecule documentation][07].
+   For additional information about the commands above, check the _Test sequence commands_ section available in the [Molecule documentation][07].
 
 [01]: https://ansible.readthedocs.io/projects/molecule/
 [02]: https://www.ansible.com/

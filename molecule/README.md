@@ -28,10 +28,10 @@ git clone --depth 1 https://github.com/fernandobohrer/ansible-molecule-scenarios
 
 The following Molecule scenarios are available:
 
-- `mdc` or *Multiple Docker Containers*
-- `mvb` or *Multiple Vagrant Boxes*
-- `sdc` or *Single Docker Container*
-- `svb` or *Single Vagrant Box*
+- `mdc` or _Multiple Docker Containers_
+- `mvb` or _Multiple Vagrant Boxes_
+- `sdc` or _Single Docker Container_
+- `svb` or _Single Vagrant Box_
 
 For details about how to get started with the different scenarios, please check the relevant information in the `README.md` file within each scenario folder.
 

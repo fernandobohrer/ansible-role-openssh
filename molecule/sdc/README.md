@@ -1,6 +1,6 @@
 # Single Docker Container
 
-This is a [Molecule][01] scenario called `sdc` for *Single Docker Container*.
+This is a [Molecule][01] scenario called `sdc` for _Single Docker Container_.
 
 ## 🚀 Motivation
 
@@ -15,32 +15,31 @@ Besides the dependencies mentioned above, make sure to have [Docker][05] install
 ## ⚡ Quick start
 
 1. From within your Ansible role directory, execute the commands below:
+   1. To create the container defined in the `molecule.yml` file:
 
-    1. To create the container defined in the `molecule.yml` file:
+      ```bash
+      molecule create -s sdc
+      ```
 
-        ```bash
-        molecule create -s sdc
-        ```
+   1. To execute the tasks defined in the `converge.yml` file on the created container:
 
-    1. To execute the tasks defined in the `converge.yml` file on the created container:
+      ```bash
+      molecule converge -s sdc
+      ```
 
-        ```bash
-        molecule converge -s sdc
-        ```
+   1. To connect to the container defined in the `molecule.yml` file, use the container's name:
 
-    1. To connect to the container defined in the `molecule.yml` file, use the container's name:
+      ```bash
+      molecule login -s sdc -h debian-13
+      ```
 
-        ```bash
-        molecule login -s sdc -h debian-13
-        ```
+   1. Finally, to destroy the container:
 
-    1. Finally, to destroy the container:
+      ```bash
+      molecule destroy -s sdc
+      ```
 
-        ```bash
-        molecule destroy -s sdc
-        ```
-
-    For additional information about the commands above, check the *Test sequence commands* section available in the [Molecule documentation][06].
+   For additional information about the commands above, check the _Test sequence commands_ section available in the [Molecule documentation][06].
 
 [01]: https://ansible.readthedocs.io/projects/molecule/
 [02]: https://www.ansible.com/

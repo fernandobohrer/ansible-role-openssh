@@ -1,6 +1,6 @@
 # Multiple Vagrant Boxes
 
-This is a [Molecule][01] scenario called `mvb` for *Multiple Vagrant Boxes*.
+This is a [Molecule][01] scenario called `mvb` for _Multiple Vagrant Boxes_.
 
 ## 🚀 Motivation
 
@@ -15,32 +15,31 @@ Besides the dependencies mentioned above, make sure to have [Vagrant][05] and [V
 ## ⚡ Quick start
 
 1. From within your Ansible role directory, execute the commands below:
+   1. To create the virtual machines defined in the `molecule.yml` file:
 
-    1. To create the virtual machines defined in the `molecule.yml` file:
+      ```bash
+      molecule create -s mvb
+      ```
 
-        ```bash
-        molecule create -s mvb
-        ```
+   1. To execute the tasks defined in the `converge.yml` file on the created virtual machines:
 
-    1. To execute the tasks defined in the `converge.yml` file on the created virtual machines:
+      ```bash
+      molecule converge -s mvb
+      ```
 
-        ```bash
-        molecule converge -s mvb
-        ```
+   1. To connect to any virtual machine defined in the `molecule.yml` file, use the virtual machines's name:
 
-    1. To connect to any virtual machine defined in the `molecule.yml` file, use the virtual machines's name:
+      ```bash
+      molecule login -s mvb -h debian-13
+      ```
 
-        ```bash
-        molecule login -s mvb -h debian-13
-        ```
+   1. Finally, to destroy the virtual machines:
 
-    1. Finally, to destroy the virtual machines:
+      ```bash
+      molecule destroy -s mvb
+      ```
 
-        ```bash
-        molecule destroy -s mvb
-        ```
-
-    For additional information about the commands above, check the *Test sequence commands* section available in the [Molecule documentation][07].
+   For additional information about the commands above, check the _Test sequence commands_ section available in the [Molecule documentation][07].
 
 [01]: https://ansible.readthedocs.io/projects/molecule/
 [02]: https://www.ansible.com/

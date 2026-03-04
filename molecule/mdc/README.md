@@ -1,6 +1,6 @@
 # Multiple Docker Containers
 
-This is a [Molecule][01] scenario called `mdc` for *Multiple Docker Containers*.
+This is a [Molecule][01] scenario called `mdc` for _Multiple Docker Containers_.
 
 ## 🚀 Motivation
 
@@ -15,32 +15,31 @@ Besides the dependencies mentioned above, make sure to have [Docker][05] install
 ## ⚡ Quick start
 
 1. From within your Ansible role directory, execute the commands below:
+   1. To create the containers defined in the `molecule.yml` file:
 
-    1. To create the containers defined in the `molecule.yml` file:
+      ```bash
+      molecule create -s mdc
+      ```
 
-        ```bash
-        molecule create -s mdc
-        ```
+   1. To execute the tasks defined in the `converge.yml` file on the created containers:
 
-    1. To execute the tasks defined in the `converge.yml` file on the created containers:
+      ```bash
+      molecule converge -s mdc
+      ```
 
-        ```bash
-        molecule converge -s mdc
-        ```
+   1. To connect to any container defined in the `molecule.yml` file, use the container's name:
 
-    1. To connect to any container defined in the `molecule.yml` file, use the container's name:
+      ```bash
+      molecule login -s mdc -h debian-13
+      ```
 
-        ```bash
-        molecule login -s mdc -h debian-13
-        ```
+   1. Finally, to destroy the containers:
 
-    1. Finally, to destroy the containers:
+      ```bash
+      molecule destroy -s mdc
+      ```
 
-        ```bash
-        molecule destroy -s mdc
-        ```
-
-    For additional information about the commands above, check the *Test sequence commands* section available in the [Molecule documentation][06].
+   For additional information about the commands above, check the _Test sequence commands_ section available in the [Molecule documentation][06].
 
 [01]: https://ansible.readthedocs.io/projects/molecule/
 [02]: https://www.ansible.com/
