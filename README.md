@@ -6,11 +6,11 @@ An opinionated Ansible role that aims to enhance the [OpenSSH][01] service secur
 
 I have been using [sshaudit.com][02] and [ssh-audit][03] to audit the OpenSSH service configuration of my personal Linux boxes. It just so happens that with the default OpenSSH service configuration, there is room for some optimization.
 
-This project combines the hardening guides available [here][04] with some other configuration changes discussed over the Internet in an easy to apply Ansible role.
+This project combines the [hardening guides][04] available in the [sshaudit.com][02] website with some other configuration changes discussed over the Internet in an easy to apply Ansible role.
 
 ## 📑 Role Variables
 
-Check [here][05].
+Check [defaults/main.yml][05].
 
 ## 🧰 Dependencies
 
@@ -58,46 +58,43 @@ The recommended approach described above boils down to:
 1. Connect to the target machines via ssh. Keep this session open.
 1. Deploy the configuration changes to the target machines using this Ansible role.
 1. Using a new terminal window, connect to the machines via ssh again. This will validate that you still have access to the machines after the role was applied.
-    1. Assuming you were able to successfully log in to the machines after the role was applied, disconnect from the host on both sessions and you are done.
-    1. If the second ssh connection fails, use the first ssh connection to investigate, troubleshoot and fix any issues. Remember to restart the ssh service after modifying any settings and to test the connection again before disconnecting from the original session.
+   1. Assuming you were able to successfully log in to the machines after the role was applied, disconnect from the host on both sessions and you are done.
+   1. If the second ssh connection fails, use the first ssh connection to investigate, troubleshoot and fix any issues. Remember to restart the ssh service after modifying any settings and to test the connection again before disconnecting from the original session.
 
 ## ❓ FAQ
 
 1. How can I check that the configuration changes applied via this Ansible role actually enhanced my server's `ssh` security?
+   1. In the [`docs` folder](docs) you can find a set of files for different Linux distributions demonstrating the differences that exist before and after applying the changes that are part of this role. To test yourself, follow the steps below:
+      1. If your host exposes the `ssh` service to the Internet:
+         1. Visit [sshaudit.com][02], inform your host public IP address under `Target SSH Server` and hit `Scan`.
+         1. Optionally compare the results with the relevant file available in the `docs` folder of this project.
+         1. Execute this role against the target machine using an Ansible playbook. Details above, under `⚡ Quick start`.
+         1. Repeat the scanning process detailed above. At this stage you should see improvements in the machine's `ssh` security.
+         1. Optionally compare the up to date results with the relevant file available in the `docs` folder of this project.
 
-    1. In the [`docs` folder](docs) you can find a set of files for different Linux distributions demonstrating the differences that exist before and after applying the changes that are part of this role. To test yourself, follow the steps below:
-
-        1. If your host exposes the `ssh` service to the Internet:
-            1. Visit [sshaudit.com][02], inform your host public IP address under `Target SSH Server` and hit `Scan`.
-            1. Optionally compare the results with the relevant file available in the `docs` folder of this project.
-            1. Execute this role against the target machine using an Ansible playbook. Details above, under `⚡ Quick start`.
-            1. Repeat the scanning process detailed above. At this stage you should see improvements in the machine's `ssh` security.
-            1. Optionally compare the up to date results with the relevant file available in the `docs` folder of this project.
-
-        1. If your host does not expose the `ssh` service to the Internet:
-            1. Connect to the target host via `ssh`.
-            1. Install `pipenv`: `sudo apt-get -y install pipenv` or `pip install pipenv --user`. Details can be found [here][07].
-            1. As a regular user, create a `.venv` directory anywhere: `mkdir -p randomdir/.venv ; cd randomdir`.
-            1. Using `pipenv`, switch to the virtual environment: `pipenv shell`.
-            1. Install `ssh-audit`: `pip install ssh-audit`.
-            1. Run `ssh-audit` locally using `ssh-audit --skip-rate-test localhost` and save the results for later comparison.
-            1. Optionally compare the results with the relevant file available in the `docs` folder of this project.
-            1. Execute this role against the target machine using an Ansible playbook. Details above, under `⚡ Quick start`.
-            1. Repeat the scanning process detailed above. At this stage you should see improvements in the machine's `ssh` security.
-            1. Exit the virtual environment: `exit`.
-            1. Exit the `randomdir` folder that was created earlier: `cd ..`.
-            1. Remove the `randomdir` directory that was created earlier: `rm -rf randomdir`.
-            1. Optionally compare the up to date results with the relevant file available in the `docs` folder of this project.
+      1. If your host does not expose the `ssh` service to the Internet:
+         1. Connect to the target host via `ssh`.
+         1. Install `pipenv`: `sudo apt-get -y install pipenv` or `pip install pipenv --user`. Details can be found at the [pipenv installation guide][07].
+         1. As a regular user, create a `.venv` directory anywhere: `mkdir -p randomdir/.venv ; cd randomdir`.
+         1. Using `pipenv`, switch to the virtual environment: `pipenv shell`.
+         1. Install `ssh-audit`: `pip install ssh-audit`.
+         1. Run `ssh-audit` locally using `ssh-audit --skip-rate-test localhost` and save the results for later comparison.
+         1. Optionally compare the results with the relevant file available in the `docs` folder of this project.
+         1. Execute this role against the target machine using an Ansible playbook. Details above, under `⚡ Quick start`.
+         1. Repeat the scanning process detailed above. At this stage you should see improvements in the machine's `ssh` security.
+         1. Exit the virtual environment: `exit`.
+         1. Exit the `randomdir` folder that was created earlier: `cd ..`.
+         1. Remove the `randomdir` directory that was created earlier: `rm -rf randomdir`.
+         1. Optionally compare the up to date results with the relevant file available in the `docs` folder of this project.
 
 1. What are the sources for the configuration options that this Ansible role implements?
 
-    Some of the sources include:
-
-    - *SSH Hardening Guides* by `https://sshaudit.com` available [here][04].
-    - *How to configure and use OpenSSH server and client securely* by `https://infosec.mozilla.org` available [here][08].
-    - *Top 20 OpenSSH Server Best Security Practices* by `https://www.cyberciti.biz` available [here][09].
-    - *Why should I re-generate a server's SSH host keys?* by `https://security.stackexchange.com` available [here][10].
-    - *10 Actionable SSH Hardening Tips to Secure Your Linux Server* by `https://linuxhandbook.com` available [here][11].
+   Some of the sources include:
+   - [_SSH Hardening Guides_][04] by `https://sshaudit.com`.
+   - [_How to configure and use OpenSSH server and client securely_][08] by `https://infosec.mozilla.org`.
+   - [_Top 20 OpenSSH Server Best Security Practices_][09] by `https://www.cyberciti.biz`.
+   - [_Why should I re-generate a server's SSH host keys?_][10] by `https://security.stackexchange.com`.
+   - [_10 Actionable SSH Hardening Tips to Secure Your Linux Server_][11] by `https://linuxhandbook.com`.
 
 ## 📝 License
 
