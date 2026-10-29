@@ -33,10 +33,16 @@ Besides the dependencies mentioned above, make sure to have [Vagrant][05] and [V
       molecule login -s svb -h debian-13
       ```
 
-   1. Finally, to destroy the virtual machine:
+   1. To destroy the virtual machine:
 
       ```bash
       molecule destroy -s svb
+      ```
+
+   1. Finally, to reset molecule's temporary folders:
+
+      ```bash
+      molecule reset -s svb
       ```
 
    For additional information about the commands above, check the _Test sequence commands_ section available in the [Molecule documentation][07].

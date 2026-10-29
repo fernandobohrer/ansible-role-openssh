@@ -23,7 +23,7 @@ platforms:
     cpus: 2
     memory: 2048
 
-  - name: ubuntu-2404
-    box: bento/ubuntu-24.04 # https://developer.hashicorp.com/vagrant/docs/boxes#official-boxes
+  - name: ubuntu-2604
+    box: bento/ubuntu-26.04 # https://developer.hashicorp.com/vagrant/docs/boxes#official-boxes
     cpus: 2
     memory: 2048

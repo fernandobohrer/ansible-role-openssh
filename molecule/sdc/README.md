@@ -33,10 +33,16 @@ Besides the dependencies mentioned above, make sure to have [Docker][05] install
       molecule login -s sdc -h debian-13
       ```
 
-   1. Finally, to destroy the container:
+   1. To destroy the container:
 
       ```bash
       molecule destroy -s sdc
+      ```
+
+   1. Finally, to reset molecule's temporary folders:
+
+      ```bash
+      molecule reset -s sdc
       ```
 
    For additional information about the commands above, check the _Test sequence commands_ section available in the [Molecule documentation][06].
