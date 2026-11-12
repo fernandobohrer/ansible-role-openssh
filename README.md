@@ -38,6 +38,7 @@ This role was tested on and is confirmed to work with the following Linux distri
 - `Debian 13`
 - `Ubuntu 22.04`
 - `Ubuntu 24.04`
+- `Ubuntu 26.04`
 
 Details can be found in the [Molecule][06] scenarios available in the `molecule` folder.
 
